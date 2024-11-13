@@ -1,15 +1,13 @@
 name: Fly Deploy
 on:
-  workflow_run:
-    workflows: ["Deployment pipeline"]  # Name of the previous workflow
-    types:
-      - completed
+  push:
+    branches:
+      - main
 jobs:
   deploy:
     name: Deploy app
     runs-on: ubuntu-20.04
     concurrency: deploy-group    # optional: ensure only one action runs at a time
-    if: ${{ github.event.workflow_run.event == 'push' }}
     steps:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
